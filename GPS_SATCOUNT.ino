@@ -1,4 +1,4 @@
-//Nir Naknik
+//Test Code for the GPS module of the ArduinoRover
 
 //========Include Libraries========//
 #include <TinyGPS++.h>
@@ -38,7 +38,6 @@ void loop()
 //====================Display Info=======================//
 void displayInfo()
 {
-  Serial.println("Nir Naknik");
   Serial.print(F("Location: ")); 
   if (gps.location.isValid())
   {
