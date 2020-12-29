@@ -82,7 +82,8 @@ void displayInfo()
   {
     Serial.println("Not Available");
   }
-
+  Serial.print("Satellites count: ");
+  Serial.println(gps.satellites.value());
   Serial.println();
   Serial.println();
   delay(1000);
