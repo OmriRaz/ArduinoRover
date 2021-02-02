@@ -20,7 +20,7 @@ void setup()
   dht.begin();
 
   if (pressure.begin())
-    Serial.println("BMP180 init success");
+  {}
   else
   {
     // Oops, something went wrong, this is usually a connection problem,
