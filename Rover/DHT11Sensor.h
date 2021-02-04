@@ -1,9 +1,8 @@
 #include "DHT.h"
 
 #define DHTTYPE DHT11
-#define DHT11_PIN 2
 
-DHT dht(DHTPIN, DHTTYPE);
+DHT dht(DHT11_PIN, DHTTYPE);
 
 void initializeDHTSensor()
 {

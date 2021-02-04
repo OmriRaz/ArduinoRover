@@ -1,5 +1,3 @@
-
-
 int getMQ2Values()
 {
   int gas = analogRead(GAS_PIN);
