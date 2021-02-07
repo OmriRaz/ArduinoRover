@@ -9,7 +9,7 @@ void initializeNRFCommunication()
 {
     radio.begin();                      // start wireless communication
     radio.openWritingPipe(NRF_ADDRESS); // set the address where we will send the data
-    radio.setPALevel(RF24_PA_MIN);      // you can set it as minimum or maximum depending on the distance between the transmitter and receiver.
+    radio.setPALevel(RF24_PA_MAX);      // you can set it as minimum or maximum depending on the distance between the transmitter and receiver.
     radio.stopListening();              // set as transmitter
 }
 
@@ -17,4 +17,5 @@ void initializeNRFCommunication()
 void sendNRFMessage(char* message)
 {
   radio.write(&message, sizeof(message));
+  Serial.println(message);
 }

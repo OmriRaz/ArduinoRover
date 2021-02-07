@@ -28,7 +28,7 @@ void getBMPValues(double* pressure, double* seaPressure)
           *seaPressure = bmp.sealevel(*pressure, ALTITUDE);
           Serial.print("Sea-level pressure: ");
           Serial.print(*seaPressure);
-          Serial.println("hPa\n");
+          Serial.println("hPa");
         }
 
 }

@@ -30,6 +30,8 @@ void loop()
   getMQ2Values();
 
   char message[] = "Hello!";
-  sendNRFMessage(message);
+  radio.write(&message, sizeof(message));
+  Serial.println(message);
+  //sendNRFMessage(message);
   delay(5000);
 }
