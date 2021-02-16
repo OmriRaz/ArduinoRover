@@ -15,3 +15,4 @@ const byte NRF_ADDRESS[6] = "00001";     //Byte of array representing the addres
  * ANALOG PINS
  */
 #define GAS_PIN A0 
+#define IR_PIN  A1

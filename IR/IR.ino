@@ -3,6 +3,6 @@ void setup() {
 }
 
 void loop() {
-  int sensorValue = analogRead(A0);
+  int sensorValue = analogRead(A1);
   Serial.println(sensorValue);
 }

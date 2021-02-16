@@ -5,6 +5,7 @@
 #include "MQ2GasSensor.h"
 #include "NRFCommunication.h"
 #include "PMS5003Sensor.h"
+#include "IRSensor.h"
 
 
 /*
@@ -19,6 +20,7 @@ void setup()
   initializeBMPSensor();
   initializeNRFCommunication();
   initializePMSSensor();
+  // Gas and IR don't need initialization, they return the values to analog pins directly
 }
 
 void loop() 
@@ -32,6 +34,8 @@ void loop()
   getMQ2Values();
 
   getPMSValues();
+
+  getIRValue();
 
   char message[] = "Hello!";
   radio.write(&message, sizeof(message));
