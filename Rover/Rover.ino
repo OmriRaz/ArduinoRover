@@ -4,6 +4,7 @@
 #include "BMPSensor.h"
 #include "MQ2GasSensor.h"
 #include "NRFCommunication.h"
+#include "PMS5003Sensor.h"
 
 
 /*
@@ -17,6 +18,7 @@ void setup()
   initializeDHTSensor();
   initializeBMPSensor();
   initializeNRFCommunication();
+  initializePMSSensor();
 }
 
 void loop() 
@@ -29,8 +31,11 @@ void loop()
 
   getMQ2Values();
 
+  getPMSValues();
+
   char message[] = "Hello!";
   radio.write(&message, sizeof(message));
+  Serial.print("Message sent: ");
   Serial.println(message);
   //sendNRFMessage(message);
   delay(5000);

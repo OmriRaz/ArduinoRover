@@ -5,7 +5,7 @@
 // pin #2 is IN from sensor (TX pin on sensor), leave pin #3 disconnected
 // comment these two lines if using hardware serial
 #include <SoftwareSerial.h>
-SoftwareSerial pmSerial(2, 3);
+SoftwareSerial pmSerial(4, 3); // TX RX
  
 Adafruit_PM25AQI aqi = Adafruit_PM25AQI();
  
@@ -13,19 +13,12 @@ void setup() {
   // Wait for serial monitor to open
   Serial.begin(115200);
   while (!Serial) delay(10);
- 
-  Serial.println("Adafruit PMSA003I Air Quality Sensor");
- 
-  delay(1000); // boot up
 
   pmSerial.begin(9600);
 
   if (! aqi.begin_UART(&pmSerial)) { // connect to the sensor over software serial 
     Serial.println("Could not find PM 2.5 sensor!");
-    while (1) delay(10);
   }
- 
-  Serial.println("PM25 found!");
 }
  
 void loop() {
