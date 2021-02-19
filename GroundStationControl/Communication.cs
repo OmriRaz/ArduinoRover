@@ -25,11 +25,11 @@ namespace GroundStationControl
             port = new SerialPort("COM4", 9600);
             await Task.Run(() =>
             {
+                Thread.Sleep(2000);
                 while (true)
                 {
                     try
                     {
-                        Thread.Sleep(2000);
                         port.Open();
                         String s = Console.ReadLine();
                         if (s.Equals("exit"))

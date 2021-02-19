@@ -15,29 +15,8 @@ using System.Windows.Shapes;
 
 namespace GroundStationControl
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        private bool downKeyPressed = false;
-        private bool upKeyPressed = false;
-        private bool rightKeyPressed = false;
-        private bool leftKeyPressed = false;
-        private int keysPressed = 0;
-        public static MainWindow window;
-
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.UpArrow.Background = Brushes.Gray;
-            this.DownArrow.Background = Brushes.Gray;
-            this.LeftArrow.Background = Brushes.Gray;
-            this.RightArrow.Background = Brushes.Gray;
-            Communication.OpenCommunication();
-            window = this;
-        }
-
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             var key = e.Key;
@@ -45,7 +24,7 @@ namespace GroundStationControl
             switch (key)
             {
                 case Key.Up:
-                    if(keysPressed < 2 && !upKeyPressed)
+                    if (keysPressed < 2 && !upKeyPressed)
                     {
                         this.UpArrow.Background = Brushes.Green;
                         upKeyPressed = true;
@@ -118,7 +97,5 @@ namespace GroundStationControl
                     break;
             }
         }
-
-
     }
 }
