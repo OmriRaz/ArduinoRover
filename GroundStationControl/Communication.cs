@@ -20,23 +20,25 @@ namespace GroundStationControl
     public static class Communication
     {
         public static SerialPort port;
+        public const int BYTES_READ = 100;
         public static async void OpenCommunication()
         {
-            port = new SerialPort("COM4", 9600);
+            port = new SerialPort("COM4", 9600); // SerialPort.GetPortNames();
             await Task.Run(() =>
             {
                 Thread.Sleep(2000);
+                char[] buffer = new char[BYTES_READ];
                 while (true)
                 {
                     try
                     {
-                        port.Open();
-                        String s = Console.ReadLine();
-                        if (s.Equals("exit"))
-                        {
-                            break;
-                        }
-                        port.Write(s + '\n');
+                        if(!port.IsOpen)
+                            port.Open();
+
+                        port.Read(buffer, 0, BYTES_READ);
+                        // TO DO: analyze buffer and display data on UI
+
+                        //TO DO: port.Write() - write data to the arduino, according to arrows pressed (move car)
                     }
                     catch (Exception ex)
                     {
