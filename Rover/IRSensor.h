@@ -1,6 +1,6 @@
 int getIRValue()
 {
-  int irValue = analogRead(A1);
+  int irValue = analogRead(IR_PIN);
   Serial.print("IR Value: ");
   Serial.println(irValue);
   return irValue;
