@@ -1,3 +1,5 @@
+#define DATA_ARR_LEN 100
+
 /*
  * DIGITAL PINS
  */

@@ -4,6 +4,8 @@
 RF24 radio(9, 10); // CE, CSN
 const byte address[6] = "00001";
 
+#define DATA_ARR_LEN 100
+
 void setup() 
 {
 
@@ -15,16 +17,7 @@ void setup()
 }
 void loop()
 {
-    if (radio.available())
-    {
-        char text[100] = "";
-        radio.read(&text, sizeof(text)); // read from rover
-        Serial.println(text);
-        
-        Serial.write(text); // write to ground station's port the data we got from rover
-    }
-
-    if (Serial.available() > 0) // if ground station sent data (move car data)
+  if (Serial.available() > 0) // if ground station sent data (move car data)
     {
         String serialText = "";
         serialText = Serial.readString(); // read string from ground station
@@ -41,6 +34,17 @@ void loop()
         
         radio.startListening();
     }
+    // delay?
+    if (radio.available())
+    {
+        char text[DATA_ARR_LEN] = "";
+        radio.read(&text, sizeof(text)); // read from rover
+        Serial.println(text);
+        
+        Serial.write(text); // write to ground station's port the data we got from rover
+    }
+
+    
 
     delay(5);
 }

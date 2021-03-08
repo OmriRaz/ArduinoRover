@@ -33,12 +33,24 @@ namespace GroundStationControl
                     try
                     {
                         if(!port.IsOpen)
+                        {
                             port.Open();
-
-                        port.Read(buffer, 0, BYTES_READ);
-                        // TO DO: analyze buffer and display data on UI
+                            MainWindow.window.Dispatcher.Invoke(() =>
+                            {
+                                MainWindow.window.MainText.Text = "Connected!";
+                            });
+                        }
 
                         //TO DO: port.Write() - write data to the arduino, according to arrows pressed (move car)
+
+                        port.Read(buffer, 0, BYTES_READ); // read sensors data
+                        MainWindow.window.Dispatcher.Invoke(() =>
+                        {
+                            MainWindow.window.MainText.Text = new string(buffer);
+                        });
+
+                        // TO DO: analyze buffer and display data on UI
+
                     }
                     catch (Exception ex)
                     {

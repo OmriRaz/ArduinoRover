@@ -25,22 +25,38 @@ void setup()
 
 void loop() 
 {
-  float temp, humidity;
+  float temp = 0, humidity = 0;
   getDHTValues(&temp, &humidity);
 
-  double pressure, seaPressure;
+  double pressure = 0, seaPressure = 0;
   getBMPValues(&pressure, &seaPressure);
 
-  getMQ2Values();
+  int gas = getMQ2Values();
+
+  int ir = getIRValue();
 
   getPMSValues();
 
-  getIRValue();
+  String data = String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|" + String(seaPressure) + "|" + String(gas) + "|" + String(ir);
+  
+  char dataArray[DATA_ARR_LEN] = { 0 };
+  data.toCharArray(dataArray, DATA_ARR_LEN);
 
-  char message[] = "Hello!";
-  radio.write(&message, sizeof(message));
+  radio.startListening(); // start listening to receive move data
+
+  String moveData = "";
+  if (radio.available())
+  {
+    moveData = Serial.readString(); // read string from ground station
+  }
+
+  radio.stopListening(); // stop listening in order to send sensors' data
+
+  // TO DO: ANALYZE MOVEMENT DATA
+  
+  radio.write(&dataArray, sizeof(dataArray));
   Serial.print("Message sent: ");
-  Serial.println(message);
+  Serial.println(dataArray);
   //sendNRFMessage(message);
   delay(5000);
 }
