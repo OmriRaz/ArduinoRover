@@ -35,7 +35,7 @@ void left() {
     digitalWrite(MRN, HIGH);
 }
 
-void left() {
+void right() {
     digitalWrite(MLP, LOW);
     digitalWrite(MLN, HIGH);
     digitalWrite(MRP, HIGH);
