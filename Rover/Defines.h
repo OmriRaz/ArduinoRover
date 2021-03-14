@@ -1,4 +1,4 @@
-#define DATA_ARR_LEN 250
+#define DATA_ARR_LEN 32
 #define MOVE_DATA_LEN 4
 
 /*

@@ -37,10 +37,14 @@ void loop()
 
   getPMSValues();
 
-  String data = "~" + String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|" + String(seaPressure) + "|" + String(gas) + "|" + String(ir) + "~";
+  String data = "~" + String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|" + String(seaPressure) + "|";
+  String dataSecondPart = String(gas) + "|" + String(ir) + "~";
   
   char dataArray[DATA_ARR_LEN] = { 0 };
   data.toCharArray(dataArray, DATA_ARR_LEN);
+  
+  char dataSecondPartArray[DATA_ARR_LEN] = { 0 };
+  dataSecondPart.toCharArray(dataSecondPartArray, DATA_ARR_LEN);
 
   radio.startListening(); // start listening to receive move data
 
@@ -58,8 +62,10 @@ void loop()
   radio.stopListening(); // stop listening in order to send sensors' data
   
   radio.write(&dataArray, sizeof(dataArray));
-  //Serial.print("Message sent: ");
-  //Serial.println(dataArray);
+  radio.write(&dataSecondPartArray, sizeof(dataSecondPartArray));
+  Serial.print("Message sent: ");
+  Serial.print(dataArray);
+  Serial.println(dataSecondPartArray);
   //sendNRFMessage(message);
   delay(3000);
 }

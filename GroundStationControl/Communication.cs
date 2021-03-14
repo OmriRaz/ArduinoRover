@@ -20,7 +20,7 @@ namespace GroundStationControl
     public static class Communication
     {
         public static SerialPort port;
-        public const int BYTES_READ = 250;
+        public const int BYTES_READ = 32;
         // DATA STRUCTURE: ~TEMP|HUMIDITY%|PRESSURE|SEA_PRESSURE|GAS_VALUE|IR_VALUE~
         // ↓
         private const int SEPARATORS_COUNT = 5;
@@ -46,11 +46,12 @@ namespace GroundStationControl
 
                         //TO DO: port.Write() - write data to the arduino, according to arrows pressed (move car)
 
-                        port.Write(GetMovementString().ToCharArray(), 0, 4);
+                        //port.Write(GetMovementString().ToCharArray(), 0, 4);
 
                         port.Read(buffer, 0, BYTES_READ); // read sensors data
-                        
                         string bufferString = new string(buffer);
+                        port.Read(buffer, 0, BYTES_READ); // read sensors data
+                        bufferString += new string(buffer);
 
                         // find start and end of data
                         int startSymbolIndex = bufferString.IndexOf('~');

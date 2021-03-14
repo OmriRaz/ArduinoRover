@@ -41,10 +41,14 @@ void loop()
     // delay?
     if (radio.available())
     {
-        char text[DATA_ARR_LEN] = "";
-        radio.read(&text, sizeof(text)); // read from rover
-        //Serial.println(text);
-        Serial.write(text, sizeof(text)); // write to ground station's port the data we got from rover 
+        char data[DATA_ARR_LEN] = "";
+        char dataSecondPart[DATA_ARR_LEN] = "";
+        
+        radio.read(&data, sizeof(data)); // read from rover
+        radio.read(&dataSecondPart, sizeof(dataSecondPart)); // read from rover
+        
+        Serial.write(data, sizeof(data)); // write to ground station's port the data we got from rover 
+        Serial.write(dataSecondPart, sizeof(dataSecondPart)); // write to ground station's port the data we got from rover 
     }
 
     delay(20);
