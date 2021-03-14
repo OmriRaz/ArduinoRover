@@ -1,9 +1,18 @@
-#define DATA_ARR_LEN 100
+#define DATA_ARR_LEN 250
+#define MOVE_DATA_LEN 4
 
 /*
  * DIGITAL PINS
  */
 #define DHT11_PIN       2
+
+// Motor
+#define MOTOR_MLP 4 //Positive LEFT
+#define MOTOR_MLN 5 //Negative LEFT
+
+#define MOTOR_MRP 6 //Positive RIGHT
+#define MOTOR_MRN 7 //Negative RIGHT
+// ---------
 
 
 // NRF PINS
@@ -11,7 +20,8 @@
 #define NRF_CSN_PIN     10
 
 // NRF SEND/RECEIVE ADDRESS
-const byte NRF_ADDRESS[6] = "00001";     //Byte of array representing the address. This is the address where we will send the data. This should be same on the receiving side.
+const byte WRITING_ADDRESS[6] = "00001";     //Byte of array representing the address. This is the address where we will send the data. This should be same on the receiving side.
+const byte READING_ADDRESS[6] = "00011";
 
 /*
  * ANALOG PINS

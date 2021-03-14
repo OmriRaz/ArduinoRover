@@ -37,26 +37,29 @@ void loop()
 
   getPMSValues();
 
-  String data = String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|" + String(seaPressure) + "|" + String(gas) + "|" + String(ir);
+  String data = "~" + String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|" + String(seaPressure) + "|" + String(gas) + "|" + String(ir) + "~";
   
   char dataArray[DATA_ARR_LEN] = { 0 };
   data.toCharArray(dataArray, DATA_ARR_LEN);
 
   radio.startListening(); // start listening to receive move data
 
-  String moveData = "";
-  if (radio.available())
+  if (radio.available()) // get move data and move car accordingly
   {
-    moveData = Serial.readString(); // read string from ground station
+    char moveData[MOVE_DATA_LEN] = "";
+    radio.read(&moveData, sizeof(moveData)); // read from ground station
+    
+    digitalWrite(MOTOR_MLP, moveData[0] - '0');
+    digitalWrite(MOTOR_MLN, moveData[1] - '0');
+    digitalWrite(MOTOR_MRP, moveData[2] - '0');
+    digitalWrite(MOTOR_MRN, moveData[3] - '0');
   }
 
   radio.stopListening(); // stop listening in order to send sensors' data
-
-  // TO DO: ANALYZE MOVEMENT DATA
   
   radio.write(&dataArray, sizeof(dataArray));
-  Serial.print("Message sent: ");
-  Serial.println(dataArray);
+  //Serial.print("Message sent: ");
+  //Serial.println(dataArray);
   //sendNRFMessage(message);
-  delay(5000);
+  delay(3000);
 }

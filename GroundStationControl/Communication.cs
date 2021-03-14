@@ -20,7 +20,10 @@ namespace GroundStationControl
     public static class Communication
     {
         public static SerialPort port;
-        public const int BYTES_READ = 100;
+        public const int BYTES_READ = 250;
+        // DATA STRUCTURE: ~TEMP|HUMIDITY%|PRESSURE|SEA_PRESSURE|GAS_VALUE|IR_VALUE~
+        // ↓
+        private const int SEPARATORS_COUNT = 5;
         public static async void OpenCommunication()
         {
             port = new SerialPort("COM4", 9600); // SerialPort.GetPortNames();
@@ -43,12 +46,24 @@ namespace GroundStationControl
 
                         //TO DO: port.Write() - write data to the arduino, according to arrows pressed (move car)
 
-                        port.Read(buffer, 0, BYTES_READ); // read sensors data
-                        MainWindow.window.Dispatcher.Invoke(() =>
-                        {
-                            MainWindow.window.MainText.Text = new string(buffer);
-                        });
+                        port.Write(GetMovementString().ToCharArray(), 0, 4);
 
+                        port.Read(buffer, 0, BYTES_READ); // read sensors data
+                        
+                        string bufferString = new string(buffer);
+
+                        // find start and end of data
+                        int startSymbolIndex = bufferString.IndexOf('~');
+                        int endSymbolIndex = bufferString.IndexOf('~', startSymbolIndex + 1);
+
+                        if (startSymbolIndex != -1 && startSymbolIndex+1 < bufferString.Length && endSymbolIndex != -1)
+                        {
+                            string data = bufferString.Substring(startSymbolIndex + 1, endSymbolIndex - 2);
+                            MainWindow.window.Dispatcher.Invoke(() =>
+                            {
+                                MainWindow.window.MainText.Text = data;
+                            });
+                        }
                         // TO DO: analyze buffer and display data on UI
 
                     }
@@ -61,6 +76,29 @@ namespace GroundStationControl
                     }
                 }
             });
+        }
+        private static string GetMovementString()
+        {
+            // string consists of: L+ L- R+ R-
+            string moveString = "0000";
+            if(MainWindow.upKeyPressed)
+            {
+                moveString = "1010";
+            }
+            else if(MainWindow.downKeyPressed)
+            {
+                moveString = "0101";
+            }
+            else if(MainWindow.leftKeyPressed)
+            {
+                moveString = "1001";
+            }
+            else if(MainWindow.rightKeyPressed)
+            {
+                moveString = "0110";
+            }
+            
+            return moveString;
         }
     }
 }

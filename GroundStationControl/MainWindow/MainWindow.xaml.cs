@@ -20,10 +20,10 @@ namespace GroundStationControl
     /// </summary>
     public partial class MainWindow : Window
     {
-        private bool downKeyPressed = false;
-        private bool upKeyPressed = false;
-        private bool rightKeyPressed = false;
-        private bool leftKeyPressed = false;
+        public static bool downKeyPressed = false;
+        public static bool upKeyPressed = false;
+        public static bool rightKeyPressed = false;
+        public static bool leftKeyPressed = false;
         private int keysPressed = 0;
         public static MainWindow window;
 

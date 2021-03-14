@@ -17,14 +17,16 @@ namespace GroundStationControl
 {
     public partial class MainWindow : Window
     {
+        const int MAX_KEYS = 1;
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             var key = e.Key;
+            
             System.Threading.Thread.Sleep(20);
             switch (key)
             {
                 case Key.Up:
-                    if (keysPressed < 2 && !upKeyPressed)
+                    if (keysPressed < MAX_KEYS && !upKeyPressed)
                     {
                         this.UpArrow.Background = Brushes.Green;
                         upKeyPressed = true;
@@ -32,7 +34,7 @@ namespace GroundStationControl
                     }
                     break;
                 case Key.Down:
-                    if (keysPressed < 2 && !downKeyPressed)
+                    if (keysPressed < MAX_KEYS && !downKeyPressed)
                     {
                         this.DownArrow.Background = Brushes.Green;
                         downKeyPressed = true;
@@ -40,7 +42,7 @@ namespace GroundStationControl
                     }
                     break;
                 case Key.Left:
-                    if (keysPressed < 2 && !leftKeyPressed)
+                    if (keysPressed < MAX_KEYS && !leftKeyPressed)
                     {
                         this.LeftArrow.Background = Brushes.Green;
                         leftKeyPressed = true;
@@ -48,7 +50,7 @@ namespace GroundStationControl
                     }
                     break;
                 case Key.Right:
-                    if (keysPressed < 2 && !rightKeyPressed)
+                    if (keysPressed < MAX_KEYS && !rightKeyPressed)
                     {
                         this.RightArrow.Background = Brushes.Green;
                         rightKeyPressed = true;

@@ -2,16 +2,18 @@
 #include <nRF24L01.h>
 #include <RF24.h>
 RF24 radio(9, 10); // CE, CSN
-const byte address[6] = "00001";
+const byte READING_ADDRESS[6] = "00001";
+const byte WRITING_ADDRESS[6] = "00011";
 
-#define DATA_ARR_LEN 100
+#define DATA_ARR_LEN 250
 
 void setup() 
 {
 
     Serial.begin(9600);
     radio.begin();
-    radio.openReadingPipe(0, address);   //Setting the address at which we will receive the data
+    radio.openReadingPipe(0, READING_ADDRESS);   //Setting the address at which we will receive the data
+    radio.openWritingPipe(WRITING_ADDRESS); // set the address where we will send the data
     radio.setPALevel(RF24_PA_MIN);       //You can set this as minimum or maximum depending on the distance between the transmitter and receiver.
     radio.startListening();              //This sets the module as receiver
 }
@@ -22,29 +24,28 @@ void loop()
         String serialText = "";
         serialText = Serial.readString(); // read string from ground station
 
+        if(serialText.length() >= 4)
+        {
+          radio.stopListening(); // stop listening so we can send move data
+          char message[4];
+          serialText.toCharArray(message, 4);
+          radio.write(&message, sizeof(message));
+          //Serial.print("Message sent: ");
+          //Serial.println(message);
+          
+          radio.startListening();
+          
+        }
         
-        // TO DO: analyze ground station's string and send data to rover with movement
-
-        radio.stopListening();
-        
-        char message[] = "Hello!";
-        radio.write(&message, sizeof(message));
-        Serial.print("Message sent: ");
-        Serial.println(message);
-        
-        radio.startListening();
     }
     // delay?
     if (radio.available())
     {
         char text[DATA_ARR_LEN] = "";
         radio.read(&text, sizeof(text)); // read from rover
-        Serial.println(text);
-        
-        Serial.write(text); // write to ground station's port the data we got from rover
+        //Serial.println(text);
+        Serial.write(text, sizeof(text)); // write to ground station's port the data we got from rover 
     }
 
-    
-
-    delay(5);
+    delay(20);
 }
