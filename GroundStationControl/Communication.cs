@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
+using System.Text.RegularExpressions;
 
 namespace GroundStationControl
 {
@@ -57,18 +58,28 @@ namespace GroundStationControl
                         // find start and end of data
                         int startSymbolIndex = bufferString.IndexOf('~');
                         int endSymbolIndex = bufferString.IndexOf('~', startSymbolIndex + 1);
+                        string data = "";
 
                         if (startSymbolIndex != -1 && startSymbolIndex+1 < bufferString.Length && endSymbolIndex != -1)
                         {
-                            string data = bufferString.Substring(startSymbolIndex + 1, endSymbolIndex - 2);
-                            MainWindow.window.Dispatcher.Invoke(() =>
+                            data = bufferString.Substring(startSymbolIndex + 1, endSymbolIndex - 2);
+                            // REGEX for checking if string in format
+                            // [-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*
+                            Regex regex = new Regex(@"[-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*");
+                            Match match = regex.Match(data);
+                            if (match.Success)
                             {
-                                MainWindow.window.MainText.Text = data;
-                            });
+                                MainWindow.window.Dispatcher.Invoke(() =>
+                                {
+                                    MainWindow.window.MainText.Text = data;
+                                });
+                                // TO DO: analyze buffer and display data on UI
+                            }
                         }
-                        port.DiscardInBuffer();
-                        // TO DO: analyze buffer and display data on UI
 
+                        
+
+                        port.DiscardInBuffer();
                     }
                     catch (Exception ex)
                     {
