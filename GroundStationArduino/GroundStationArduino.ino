@@ -45,10 +45,11 @@ void loop()
         char dataSecondPart[DATA_ARR_LEN] = "";
         
         radio.read(&data, sizeof(data)); // read from rover
+        delay(300);
         radio.read(&dataSecondPart, sizeof(dataSecondPart)); // read from rover
         
-        Serial.write(data, sizeof(data)); // write to ground station's port the data we got from rover 
-        Serial.write(dataSecondPart, sizeof(dataSecondPart)); // write to ground station's port the data we got from rover 
+        Serial.print(data); // write to ground station's port the data we got from rover 
+        Serial.print(dataSecondPart); // write to ground station's port the data we got from rover 
     }
 
     delay(20);

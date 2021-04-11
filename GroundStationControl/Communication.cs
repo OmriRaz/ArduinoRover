@@ -48,6 +48,7 @@ namespace GroundStationControl
 
                         //port.Write(GetMovementString().ToCharArray(), 0, 4);
 
+                        System.Threading.Thread.Sleep(500);
                         port.Read(buffer, 0, BYTES_READ); // read sensors data
                         string bufferString = new string(buffer);
                         port.Read(buffer, 0, BYTES_READ); // read sensors data
@@ -65,6 +66,7 @@ namespace GroundStationControl
                                 MainWindow.window.MainText.Text = data;
                             });
                         }
+                        port.DiscardInBuffer();
                         // TO DO: analyze buffer and display data on UI
 
                     }

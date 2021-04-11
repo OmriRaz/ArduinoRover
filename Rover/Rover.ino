@@ -37,8 +37,8 @@ void loop()
 
   getPMSValues();
 
-  String data = "~" + String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|" + String(seaPressure) + "|";
-  String dataSecondPart = String(gas) + "|" + String(ir) + "~";
+  String data = "~" + String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|";
+  String dataSecondPart = String(seaPressure) + "|" + String(gas) + "|" + String(ir) + "~";
   
   char dataArray[DATA_ARR_LEN] = { 0 };
   data.toCharArray(dataArray, DATA_ARR_LEN);
@@ -67,5 +67,4 @@ void loop()
   Serial.print(dataArray);
   Serial.println(dataSecondPartArray);
   //sendNRFMessage(message);
-  delay(3000);
 }
