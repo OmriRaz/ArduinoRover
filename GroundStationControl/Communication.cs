@@ -73,8 +73,8 @@ namespace GroundStationControl
                                 {
                                     MainWindow.window.MainText.Text = data;
                                 });
-                                
-                                // TO DO: analyze buffer and display data on UI
+
+                                ParseAndShowData(data);
                             }
                         }
 
@@ -84,10 +84,7 @@ namespace GroundStationControl
                     }
                     catch (Exception ex)
                     {
-                        MainWindow.window.Dispatcher.Invoke(() =>
-                        {
-                            MainWindow.window.MainText.Text = "ERROR: " + ex.Message;
-                        });
+                        ErrorMessage(ex.Message);
                     }
                 }
             });
@@ -114,6 +111,48 @@ namespace GroundStationControl
             }
             
             return moveString;
+        }
+
+        public static void ParseAndShowData(string data)
+        {
+            try
+            {
+                MainWindow.window.Dispatcher.Invoke(() =>
+                {
+                    MainWindow.window.TemperatureText.Text =  data.Substring(0, data.IndexOf('|')) + "° C";
+                    data = data.Remove(0, data.IndexOf('|') + 1);
+
+                    MainWindow.window.HumidityText.Text = data.Substring(0, data.IndexOf('|')) + "% Humidity";
+                    data = data.Remove(0, data.IndexOf('|') + 1);
+
+                    MainWindow.window.PressureText.Text = data.Substring(0, data.IndexOf('|')) + " Pa";
+                    data = data.Remove(0, data.IndexOf('|') + 1);
+
+                    MainWindow.window.SeaPressureText.Text = data.Substring(0, data.IndexOf('|')) + " Pa (Sea)";
+                    data = data.Remove(0, data.IndexOf('|') + 1);
+
+                    MainWindow.window.GasText.Text = "Gas Value: " + data.Substring(0, data.IndexOf('|'));
+                    data = data.Remove(0, data.IndexOf('|') + 1);
+
+                    MainWindow.window.IRText.Text = "IR Value: " + data.Substring(0, data.IndexOf('|'));
+                    data = data.Remove(0, data.IndexOf('|') + 1);
+
+                    if(int.Parse(data) != -1) // -1 value means PM is in process of collecting data, so this wont show the -1 till we get an actual value
+                        MainWindow.window.DustText.Text = "PM 2.5: " + data + " µm"; // last piece of data is just PM value
+                });
+                
+            }
+            catch(Exception e)
+            {
+                ErrorMessage(e.Message);
+            }
+        }
+        public static void ErrorMessage(string error)
+        {
+            MainWindow.window.Dispatcher.Invoke(() =>
+            {
+                MainWindow.window.MainText.Text = "ERROR: " + error;
+            });
         }
     }
 }

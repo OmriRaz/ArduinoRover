@@ -17,14 +17,14 @@
             <Button x:Name="UpArrow" Content="↑" HorizontalAlignment="Left" Height="68.5" Margin="77,10,0,0" VerticalAlignment="Top" Width="67" FontSize="48" Grid.RowSpan="2" Focusable="False" IsTabStop="False"/>
             <Button x:Name="DownArrow" Content="↓" HorizontalAlignment="Left" Height="68.5" Margin="77,59,0,0" VerticalAlignment="Top" Width="67" FontSize="48" Grid.Row="1" Focusable="False" IsTabStop="False"/>
         </Grid>
-        <TextBlock x:Name="MainText" HorizontalAlignment="Left" Height="115.5" Margin="223.5,140.5,0,0" TextWrapping="Wrap" Text="Searching for Arduino..." VerticalAlignment="Top" Width="270.5" FontWeight="Bold" FontSize="18"/>
-        <TextBlock x:Name="TemperatureText" HorizontalAlignment="Left" Height="20.5" Margin="10,89.5,0,0" TextWrapping="Wrap" Text="0.00°C" VerticalAlignment="Top" Width="106.334"/>
-        <TextBlock x:Name="HumidityText" HorizontalAlignment="Left" Height="24" Margin="10,110,0,0" TextWrapping="Wrap" Text="0.00% Humidity" VerticalAlignment="Top" Width="106.334"/>
-        <TextBlock x:Name="PressureText" HorizontalAlignment="Left" Height="30.333" Margin="10,139,0,0" TextWrapping="Wrap" Text="000.000 Pa" VerticalAlignment="Top" Width="106.334"/>
-        <TextBlock x:Name="SeaPressureText" HorizontalAlignment="Left" Height="28" Margin="10,169.333,0,0" TextWrapping="Wrap" Text="000.000 Pa (Sea)" VerticalAlignment="Top" Width="106.334"/>
-        <TextBlock HorizontalAlignment="Left" Height="34" Margin="9,206.667,0,0" TextWrapping="Wrap" Text="Gas Value: 00" VerticalAlignment="Top" Width="107.334"/>
-        <TextBlock HorizontalAlignment="Left" Height="32" Margin="9,240.667,0,0" TextWrapping="Wrap" Text="IR Value: 00" VerticalAlignment="Top" Width="107.334"/>
-        <TextBlock HorizontalAlignment="Left" Height="38" Margin="9,272.667,0,0" TextWrapping="Wrap" Text="PM 2.5: 00 µm" VerticalAlignment="Top" Width="96"/>
+        <TextBlock x:Name="MainText" HorizontalAlignment="Left" Height="213.5" Margin="209.334,47.5,0,0" TextWrapping="Wrap" Text="Searching for Arduino..." VerticalAlignment="Top" Width="209.5" FontWeight="Bold" FontSize="18"/>
+        <TextBlock x:Name="TemperatureText" HorizontalAlignment="Left" Height="75.5" Margin="-1,34.5,0,0" TextWrapping="Wrap" Text="0.00° C" VerticalAlignment="Top" Width="181.334" FontSize="24"/>
+        <TextBlock x:Name="HumidityText" HorizontalAlignment="Left" Height="37.667" Margin="0,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="208.5" FontSize="24"><Run Text="0.00% "/><Run Text="Humidity"/></TextBlock>
+        <TextBlock x:Name="PressureText" HorizontalAlignment="Left" Height="30.333" Margin="0,181.817,0,0" TextWrapping="Wrap" Text="000.000 Pa" VerticalAlignment="Top" Width="181.334" FontSize="24"/>
+        <TextBlock x:Name="SeaPressureText" HorizontalAlignment="Left" Height="28" Margin="-1,261,0,0" TextWrapping="Wrap" Text="000.000 Pa (Sea)" VerticalAlignment="Top" Width="182.334" FontSize="24"/>
+        <TextBlock x:Name="GasText" HorizontalAlignment="Left" Height="34" Margin="444.5,34.5,0,0" TextWrapping="Wrap" Text="Gas Value: 00" VerticalAlignment="Top" Width="198" FontSize="24"/>
+        <TextBlock x:Name="IRText" Height="32" Margin="444.5,110,0,0" TextWrapping="Wrap" Text="IR Value: 00" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Width="198"/>
+        <TextBlock x:Name="DustText" HorizontalAlignment="Left" Height="38" Margin="444.5,181.817,0,0" TextWrapping="Wrap" Text="PM 2.5: 00 µm" VerticalAlignment="Top" Width="205.5" FontSize="24"/>
 
     </Grid>
     <Window.Resources>
