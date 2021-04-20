@@ -62,10 +62,10 @@ namespace GroundStationControl
 
                         if (startSymbolIndex != -1 && startSymbolIndex+1 < bufferString.Length && endSymbolIndex != -1)
                         {
-                            data = bufferString.Substring(startSymbolIndex + 1, endSymbolIndex - 2);
+                            data = bufferString.Substring(startSymbolIndex + 1, endSymbolIndex - 1);
                             // REGEX for checking if string in format
                             // [-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*
-                            Regex regex = new Regex(@"[-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*");
+                            Regex regex = new Regex(@"[-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*[|][-+]?[0-9]*");
                             Match match = regex.Match(data);
                             if (match.Success)
                             {
@@ -73,6 +73,7 @@ namespace GroundStationControl
                                 {
                                     MainWindow.window.MainText.Text = data;
                                 });
+                                
                                 // TO DO: analyze buffer and display data on UI
                             }
                         }

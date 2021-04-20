@@ -35,10 +35,10 @@ void loop()
 
   int ir = getIRValue();
 
-  getPMSValues();
+  int particles = getPMSValues(); // 2.5 dust particles
 
   String data = "~" + String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|";
-  String dataSecondPart = String(seaPressure) + "|" + String(gas) + "|" + String(ir) + "~";
+  String dataSecondPart = String(seaPressure) + "|" + String(gas) + "|" + String(ir) +  "|" + String(particles) + "~";
   
   char dataArray[DATA_ARR_LEN] = { 0 };
   data.toCharArray(dataArray, DATA_ARR_LEN);

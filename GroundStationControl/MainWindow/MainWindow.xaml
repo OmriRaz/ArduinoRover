@@ -17,47 +17,54 @@
             <Button x:Name="UpArrow" Content="↑" HorizontalAlignment="Left" Height="68.5" Margin="77,10,0,0" VerticalAlignment="Top" Width="67" FontSize="48" Grid.RowSpan="2" Focusable="False" IsTabStop="False"/>
             <Button x:Name="DownArrow" Content="↓" HorizontalAlignment="Left" Height="68.5" Margin="77,59,0,0" VerticalAlignment="Top" Width="67" FontSize="48" Grid.Row="1" Focusable="False" IsTabStop="False"/>
         </Grid>
-        <TextBlock x:Name="MainText" HorizontalAlignment="Left" Height="115.5" Margin="223.5,140.5,0,0" TextWrapping="Wrap" Text="Searching for Arduino..." VerticalAlignment="Top" Width="221" FontWeight="Bold" FontSize="18"/>
+        <TextBlock x:Name="MainText" HorizontalAlignment="Left" Height="115.5" Margin="223.5,140.5,0,0" TextWrapping="Wrap" Text="Searching for Arduino..." VerticalAlignment="Top" Width="270.5" FontWeight="Bold" FontSize="18"/>
+        <TextBlock x:Name="TemperatureText" HorizontalAlignment="Left" Height="20.5" Margin="10,89.5,0,0" TextWrapping="Wrap" Text="0.00°C" VerticalAlignment="Top" Width="106.334"/>
+        <TextBlock x:Name="HumidityText" HorizontalAlignment="Left" Height="24" Margin="10,110,0,0" TextWrapping="Wrap" Text="0.00% Humidity" VerticalAlignment="Top" Width="106.334"/>
+        <TextBlock x:Name="PressureText" HorizontalAlignment="Left" Height="30.333" Margin="10,139,0,0" TextWrapping="Wrap" Text="000.000 Pa" VerticalAlignment="Top" Width="106.334"/>
+        <TextBlock x:Name="SeaPressureText" HorizontalAlignment="Left" Height="28" Margin="10,169.333,0,0" TextWrapping="Wrap" Text="000.000 Pa (Sea)" VerticalAlignment="Top" Width="106.334"/>
+        <TextBlock HorizontalAlignment="Left" Height="34" Margin="9,206.667,0,0" TextWrapping="Wrap" Text="Gas Value: 00" VerticalAlignment="Top" Width="107.334"/>
+        <TextBlock HorizontalAlignment="Left" Height="32" Margin="9,240.667,0,0" TextWrapping="Wrap" Text="IR Value: 00" VerticalAlignment="Top" Width="107.334"/>
+        <TextBlock HorizontalAlignment="Left" Height="38" Margin="9,272.667,0,0" TextWrapping="Wrap" Text="PM 2.5: 00 µm" VerticalAlignment="Top" Width="96"/>
 
     </Grid>
     <Window.Resources>
-    <Style TargetType="{x:Type Button}">
-        <Setter Property="SnapsToDevicePixels" Value="true"/>
-        <Setter Property="OverridesDefaultStyle" Value="true"/>
-        <Setter Property="MinHeight" Value="23"/>
-        <Setter Property="MinWidth" Value="75"/>
-        <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="MinHeight" Value="23"/>
+            <Setter Property="MinWidth" Value="75"/>
+            <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource Self}}"/>
             <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border Name="Border" CornerRadius="2" BorderThickness="1"
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="Border" CornerRadius="2" BorderThickness="1"
                     Background="{TemplateBinding Background}"
                     BorderBrush="#404040">
-                        <ContentPresenter Margin="2" 
+                            <ContentPresenter Margin="2" 
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center" 
                                  RecognizesAccessKey="True"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsKeyboardFocused" Value="false">
-                            <Setter TargetName="Border" 
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocused" Value="false">
+                                <Setter TargetName="Border" 
                           Property="BorderBrush" Value="#202020" />
-                        </Trigger>
+                            </Trigger>
                             <Trigger Property="IsDefaulted" Value="true">
                                 <Setter TargetName="Border" 
                           Property="BorderBrush" Value="#202020" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="false">
-                            <Setter TargetName="Border" 
+                                <Setter TargetName="Border" 
                           Property="Background" Value="#EEEEEE" />
-                            <Setter TargetName="Border" 
+                                <Setter TargetName="Border" 
                           Property="BorderBrush" Value="#AAAAAA" />
-                            <Setter Property="Foreground" Value="#888888"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 </Window>
