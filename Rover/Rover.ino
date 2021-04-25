@@ -6,7 +6,7 @@
 #include "NRFCommunication.h"
 #include "PMS5003Sensor.h"
 #include "IRSensor.h"
-
+#include "Motor.h"
 
 /*
  * PINS FOR SENSORS DEFINED IN Defines.h
@@ -37,57 +37,38 @@ void loop()
 
     Serial.print(moveData[0]);
 
-    switch(moveData[0])
+    if(moveData[0] != 's') // move command is not switch
+      handleMoveData(moveData[0]); // move car according to command
+    else // switch mode so the rover sends sensors data
     {
-      case '0':
-        stopMotors();
-        break;
-      case '1':
-        forward();  
-        break;
-      case '2':
-        backward();
-        break;
-      case '3':
-        left();
-        break;
-      case '4':
-        right();
-        break;
-      case 's': // switch
-        
-        break;
+      radio.stopListening(); // stop listening in order to send sensors data
+
+      float temp = 0, humidity = 0;
+      getDHTValues(&temp, &humidity);
+    
+      double pressure = 0, seaPressure = 0;
+      getBMPValues(&pressure, &seaPressure);
+    
+      int gas = getMQ2Values();
+    
+      int ir = getIRValue();
+    
+      int particles = getPMSValues(); // 2.5 dust particles
+    
+      String data = "~" + String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|";
+      String dataSecondPart = String(seaPressure) + "|" + String(gas) + "|" + String(ir) +  "|" + String(particles) + "~";
+      
+      char dataArray[DATA_ARR_LEN] = { 0 };
+      data.toCharArray(dataArray, DATA_ARR_LEN);
+      
+      char dataSecondPartArray[DATA_ARR_LEN] = { 0 };
+      dataSecondPart.toCharArray(dataSecondPartArray, DATA_ARR_LEN);
+      radio.write(&dataArray, sizeof(dataArray));
+      radio.write(&dataSecondPartArray, sizeof(dataSecondPartArray));
+      /*Serial.print("Message sent: ");
+      Serial.print(dataArray);
+      Serial.println(dataSecondPartArray);*/
+
     }
-  }
-  if(false)
-  {
-    // if told to switch, switch and send sensors data
-  radio.stopListening(); // stop listening in order to send sensors data
-
-  float temp = 0, humidity = 0;
-  getDHTValues(&temp, &humidity);
-
-  double pressure = 0, seaPressure = 0;
-  getBMPValues(&pressure, &seaPressure);
-
-  int gas = getMQ2Values();
-
-  int ir = getIRValue();
-
-  int particles = getPMSValues(); // 2.5 dust particles
-
-  String data = "~" + String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|";
-  String dataSecondPart = String(seaPressure) + "|" + String(gas) + "|" + String(ir) +  "|" + String(particles) + "~";
-  
-  char dataArray[DATA_ARR_LEN] = { 0 };
-  data.toCharArray(dataArray, DATA_ARR_LEN);
-  
-  char dataSecondPartArray[DATA_ARR_LEN] = { 0 };
-  dataSecondPart.toCharArray(dataSecondPartArray, DATA_ARR_LEN);
-  radio.write(&dataArray, sizeof(dataArray));
-  radio.write(&dataSecondPartArray, sizeof(dataSecondPartArray));
-  /*Serial.print("Message sent: ");
-  Serial.print(dataArray);
-  Serial.println(dataSecondPartArray);*/
   }
 }

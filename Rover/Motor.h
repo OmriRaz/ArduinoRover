@@ -39,3 +39,28 @@ void right() {
     digitalWrite(MRP, HIGH);
     digitalWrite(MRN, LOW);
 }
+
+void handleMoveData(char data)
+{
+  switch(data)
+    {
+      case '0':
+        stopMotors();
+        break;
+      case '1':
+        forward();  
+        break;
+      case '2':
+        backward();
+        break;
+      case '3':
+        left();
+        break;
+      case '4':
+        right();
+        break;
+      default:
+        Serial.print("Error in move data: " + data);
+        break;
+    }
+}
