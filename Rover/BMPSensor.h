@@ -21,14 +21,14 @@ void getBMPValues(double* pressure, double* seaPressure)
   char status = bmp.startTemperature();
   status = bmp.getPressure(*pressure, temperature);
         if (status != 0) {
-          Serial.print("Pressure measurement: ");
+          /*Serial.print("Pressure measurement: ");
           Serial.print(*pressure);
-          Serial.println(" hPa");
+          Serial.println(" hPa");*/
 
           *seaPressure = bmp.sealevel(*pressure, ALTITUDE);
-          Serial.print("Sea-level pressure: ");
+          /*Serial.print("Sea-level pressure: ");
           Serial.print(*seaPressure);
-          Serial.println("hPa");
+          Serial.println("hPa");*/
         }
 
 }

@@ -20,11 +20,50 @@ void setup()
   initializeBMPSensor();
   initializeNRFCommunication();
   initializePMSSensor();
+
+  for(int pins=MLP; pins <= MRN; pins++)  //loop through 4 pins to define if the pins are inputs or outputs
+    pinMode(pins, OUTPUT);
+    
   // Gas and IR don't need initialization, they return the values to analog pins directly
 }
 
 void loop() 
 {
+  radio.startListening(); // start listening to receive move data
+  if (radio.available()) // get move data and move car accordingly
+  {
+    char moveData[MOVE_DATA_LEN] = "";
+    radio.read(&moveData, sizeof(moveData)); // read from ground station
+
+    Serial.print(moveData[0]);
+
+    switch(moveData[0])
+    {
+      case '0':
+        stopMotors();
+        break;
+      case '1':
+        forward();  
+        break;
+      case '2':
+        backward();
+        break;
+      case '3':
+        left();
+        break;
+      case '4':
+        right();
+        break;
+      case 's': // switch
+        
+        break;
+    }
+  }
+  if(false)
+  {
+    // if told to switch, switch and send sensors data
+  radio.stopListening(); // stop listening in order to send sensors data
+
   float temp = 0, humidity = 0;
   getDHTValues(&temp, &humidity);
 
@@ -45,26 +84,10 @@ void loop()
   
   char dataSecondPartArray[DATA_ARR_LEN] = { 0 };
   dataSecondPart.toCharArray(dataSecondPartArray, DATA_ARR_LEN);
-
-  radio.startListening(); // start listening to receive move data
-
-  if (radio.available()) // get move data and move car accordingly
-  {
-    char moveData[MOVE_DATA_LEN] = "";
-    radio.read(&moveData, sizeof(moveData)); // read from ground station
-    
-    digitalWrite(MOTOR_MLP, moveData[0] - '0');
-    digitalWrite(MOTOR_MLN, moveData[1] - '0');
-    digitalWrite(MOTOR_MRP, moveData[2] - '0');
-    digitalWrite(MOTOR_MRN, moveData[3] - '0');
-  }
-
-  radio.stopListening(); // stop listening in order to send sensors' data
-  
   radio.write(&dataArray, sizeof(dataArray));
   radio.write(&dataSecondPartArray, sizeof(dataSecondPartArray));
-  Serial.print("Message sent: ");
+  /*Serial.print("Message sent: ");
   Serial.print(dataArray);
-  Serial.println(dataSecondPartArray);
-  //sendNRFMessage(message);
+  Serial.println(dataSecondPartArray);*/
+  }
 }

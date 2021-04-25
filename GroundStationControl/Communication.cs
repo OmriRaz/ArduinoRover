@@ -32,6 +32,7 @@ namespace GroundStationControl
             {
                 Thread.Sleep(2000);
                 char[] buffer = new char[BYTES_READ];
+                char[] moveBuffer = new char[1];
                 while (true)
                 {
                     try
@@ -47,9 +48,11 @@ namespace GroundStationControl
 
                         //TO DO: port.Write() - write data to the arduino, according to arrows pressed (move car)
 
-                        //port.Write(GetMovementString().ToCharArray(), 0, 4);
+                        moveBuffer[0] = GetMovementString();
+                        port.Write(moveBuffer, 0, 1);
 
-                        System.Threading.Thread.Sleep(500);
+                        //System.Threading.Thread.Sleep(500);
+                        /*
                         port.Read(buffer, 0, BYTES_READ); // read sensors data
                         string bufferString = new string(buffer);
                         port.Read(buffer, 0, BYTES_READ); // read sensors data
@@ -78,7 +81,7 @@ namespace GroundStationControl
                             }
                         }
 
-                        
+                        */
 
                         port.DiscardInBuffer();
                     }
@@ -89,28 +92,28 @@ namespace GroundStationControl
                 }
             });
         }
-        private static string GetMovementString()
+        private static char GetMovementString()
         {
             // string consists of: L+ L- R+ R-
-            string moveString = "0000";
+            char moveChar = '0'; // 0000
             if(MainWindow.upKeyPressed)
             {
-                moveString = "1010";
+                moveChar = '1'; // 1010
             }
             else if(MainWindow.downKeyPressed)
             {
-                moveString = "0101";
+                moveChar = '2'; // 0101
             }
             else if(MainWindow.leftKeyPressed)
             {
-                moveString = "1001";
+                moveChar = '3'; // 1001
             }
             else if(MainWindow.rightKeyPressed)
             {
-                moveString = "0110";
+                moveChar = '4'; // 0110
             }
             
-            return moveString;
+            return moveChar;
         }
 
         public static void ParseAndShowData(string data)
@@ -131,7 +134,16 @@ namespace GroundStationControl
                     MainWindow.window.SeaPressureText.Text = data.Substring(0, data.IndexOf('|')) + " Pa (Sea)";
                     data = data.Remove(0, data.IndexOf('|') + 1);
 
-                    MainWindow.window.GasText.Text = "Gas Value: " + data.Substring(0, data.IndexOf('|'));
+                    int gas = int.Parse(data.Substring(0, data.IndexOf('|')));
+                    if(gas >= Constants.SMOKE_DETECTED_VALUE)
+                    {
+                        MainWindow.window.GasText.Text = "Gas Value: " + gas + "\nSMOKE DETECTED";
+                    }
+                    else
+                    {
+                        MainWindow.window.GasText.Text = "Gas Value: " + gas;
+                    }
+
                     data = data.Remove(0, data.IndexOf('|') + 1);
 
                     MainWindow.window.IRText.Text = "IR Value: " + data.Substring(0, data.IndexOf('|'));

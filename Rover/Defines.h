@@ -1,5 +1,5 @@
 #define DATA_ARR_LEN 32
-#define MOVE_DATA_LEN 4
+#define MOVE_DATA_LEN 1
 
 /*
  * DIGITAL PINS
@@ -21,7 +21,7 @@
 
 // NRF SEND/RECEIVE ADDRESS
 const byte WRITING_ADDRESS[6] = "00001";     //Byte of array representing the address. This is the address where we will send the data. This should be same on the receiving side.
-const byte READING_ADDRESS[6] = "00011";
+const byte READING_ADDRESS[6] = "00002";
 
 /*
  * ANALOG PINS

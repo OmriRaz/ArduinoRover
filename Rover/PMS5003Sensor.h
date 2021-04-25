@@ -5,7 +5,7 @@
 // pin #2 is IN from sensor (TX pin on sensor), leave pin #3 disconnected
 // comment these two lines if using hardware serial
 #include <SoftwareSerial.h>
-SoftwareSerial pmSerial(4, 3); // TX RX
+SoftwareSerial pmSerial(7, 8); // TX RX
  
 Adafruit_PM25AQI aqi = Adafruit_PM25AQI();
  
@@ -25,6 +25,6 @@ int getPMSValues()
   if (! aqi.read(&data)) {
     return -1;
   }
-  Serial.print(F("PM 2.5: ")); Serial.println(data.pm25_standard);
+  //Serial.print(F("PM 2.5: ")); Serial.println(data.pm25_standard);
   return data.pm25_standard;
 }
