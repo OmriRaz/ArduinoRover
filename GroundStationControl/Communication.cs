@@ -128,10 +128,10 @@ namespace GroundStationControl
                     MainWindow.window.HumidityText.Text = data.Substring(0, data.IndexOf('|')) + "% Humidity";
                     data = data.Remove(0, data.IndexOf('|') + 1);
 
-                    MainWindow.window.PressureText.Text = data.Substring(0, data.IndexOf('|')) + " Pa";
+                    MainWindow.window.PressureText.Text = data.Substring(0, data.IndexOf('|')) + " hPa";
                     data = data.Remove(0, data.IndexOf('|') + 1);
 
-                    MainWindow.window.SeaPressureText.Text = data.Substring(0, data.IndexOf('|')) + " Pa (Sea)";
+                    MainWindow.window.SeaPressureText.Text = data.Substring(0, data.IndexOf('|')) + " hPa (Sea)";
                     data = data.Remove(0, data.IndexOf('|') + 1);
 
                     int gas = int.Parse(data.Substring(0, data.IndexOf('|')));
