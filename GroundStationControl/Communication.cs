@@ -46,13 +46,14 @@ namespace GroundStationControl
                             });
                         }
 
-                        //TO DO: port.Write() - write data to the arduino, according to arrows pressed (move car)
+                        moveBuffer[0] = GetMovementString(); // get command for key pressed
+                        port.Write(moveBuffer, 0, 1); // write command to arduino 
 
-                        moveBuffer[0] = GetMovementString();
+                        moveBuffer[0] = Constants.SWITCH_CHAR; 
                         port.Write(moveBuffer, 0, 1);
 
-                        //System.Threading.Thread.Sleep(500);
-                        /*
+                        System.Threading.Thread.Sleep(20);
+                        
                         port.Read(buffer, 0, BYTES_READ); // read sensors data
                         string bufferString = new string(buffer);
                         port.Read(buffer, 0, BYTES_READ); // read sensors data
@@ -67,7 +68,7 @@ namespace GroundStationControl
                         {
                             data = bufferString.Substring(startSymbolIndex + 1, endSymbolIndex - 1);
                             // REGEX for checking if string in format
-                            // [-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*
+                            // [-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*[|][-+]?[0-9]*
                             Regex regex = new Regex(@"[-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*[|][-+]?[0-9]*");
                             Match match = regex.Match(data);
                             if (match.Success)
@@ -81,7 +82,7 @@ namespace GroundStationControl
                             }
                         }
 
-                        */
+                        
 
                         port.DiscardInBuffer();
                     }

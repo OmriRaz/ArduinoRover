@@ -6,6 +6,7 @@ const byte READING_ADDRESS[6] = "00001";
 const byte WRITING_ADDRESS[6] = "00002";
 
 #define DATA_ARR_LEN 250
+#define SWITCH_CHAR 's'
 
 void setup() 
 {
@@ -19,13 +20,21 @@ void setup()
 }
 void loop()
 {
+  radio.stopListening();
   if (Serial.available() > 0) // if ground station sent data (move car data)
     {
         char moveData[1] = "";
         
         moveData[0] = Serial.read();
+
+        if(moveData[0] == SWITCH_CHAR) // switch command to switch between receiver and transmitter
+        {
+          radio.startListening(); // switch to receiver
+        }
         
         radio.write(&moveData, sizeof(moveData));
+        delay(20);
+        
         //Serial.print("Message sent: ");
         //Serial.println(message);
           

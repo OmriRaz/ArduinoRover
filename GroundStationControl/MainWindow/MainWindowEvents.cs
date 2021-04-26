@@ -21,7 +21,7 @@ namespace GroundStationControl
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             var key = e.Key;
-            
+
             System.Threading.Thread.Sleep(20);
             switch (key)
             {
