@@ -28,6 +28,8 @@ namespace GroundStationControl
         public static async void OpenCommunication()
         {
             port = new SerialPort("COM4", 9600); // SerialPort.GetPortNames();
+            port.RtsEnable = true;
+            port.ReadTimeout = 1000;
             await Task.Run(() =>
             {
                 Thread.Sleep(2000);
@@ -49,22 +51,22 @@ namespace GroundStationControl
                         moveBuffer[0] = GetMovementString(); // get command for key pressed
                         port.Write(moveBuffer, 0, 1); // write command to arduino 
 
-                        moveBuffer[0] = Constants.SWITCH_CHAR; 
-                        port.Write(moveBuffer, 0, 1);
-
-                        System.Threading.Thread.Sleep(20);
-                        
                         port.Read(buffer, 0, BYTES_READ); // read sensors data
                         string bufferString = new string(buffer);
                         port.Read(buffer, 0, BYTES_READ); // read sensors data
                         bufferString += new string(buffer);
+
+                        MainWindow.window.Dispatcher.Invoke(() =>
+                        {
+                            MainWindow.window.MainText.Text = bufferString;
+                        });
 
                         // find start and end of data
                         int startSymbolIndex = bufferString.IndexOf('~');
                         int endSymbolIndex = bufferString.IndexOf('~', startSymbolIndex + 1);
                         string data = "";
 
-                        if (startSymbolIndex != -1 && startSymbolIndex+1 < bufferString.Length && endSymbolIndex != -1)
+                        if (startSymbolIndex != -1 && startSymbolIndex + 1 < bufferString.Length && endSymbolIndex != -1)
                         {
                             data = bufferString.Substring(startSymbolIndex + 1, endSymbolIndex - 1);
                             // REGEX for checking if string in format
@@ -80,10 +82,7 @@ namespace GroundStationControl
 
                                 ParseAndShowData(data);
                             }
-                        }
-
-                        
-
+                        }                    
                         port.DiscardInBuffer();
                     }
                     catch (Exception ex)

@@ -25,6 +25,6 @@ int getPMSValues()
   if (! aqi.read(&data)) {
     return -1;
   }
-  //Serial.print(F("PM 2.5: ")); Serial.println(data.pm25_standard);
+  Serial.print(F("PM 2.5: ")); Serial.println(data.pm25_standard);
   return data.pm25_standard;
 }

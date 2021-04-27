@@ -20,8 +20,8 @@
 #define NRF_CSN_PIN     10
 
 // NRF SEND/RECEIVE ADDRESS
-const byte WRITING_ADDRESS[6] = "00001";     //Byte of array representing the address. This is the address where we will send the data. This should be same on the receiving side.
-const byte READING_ADDRESS[6] = "00002";
+const byte WRITING_ADDRESS[6] = "00030";     //Byte of array representing the address. This is the address where we will send the data. This should be same on the receiving side.
+const byte READING_ADDRESS[6] = "00010";
 
 /*
  * ANALOG PINS
