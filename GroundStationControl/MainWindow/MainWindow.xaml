@@ -25,6 +25,7 @@
         <TextBlock x:Name="GasText" HorizontalAlignment="Left" Height="34" Margin="444.5,34.5,0,0" TextWrapping="Wrap" Text="Gas Value: 00" VerticalAlignment="Top" Width="198" FontSize="24"/>
         <TextBlock x:Name="IRText" Height="32" Margin="444.5,110,0,0" TextWrapping="Wrap" Text="IR Value: 00" VerticalAlignment="Top" FontSize="24" HorizontalAlignment="Left" Width="198"/>
         <TextBlock x:Name="DustText" HorizontalAlignment="Left" Height="38" Margin="444.5,181.817,0,0" TextWrapping="Wrap" Text="PM 2.5: 00 µm" VerticalAlignment="Top" Width="205.5" FontSize="24"/>
+        <Button x:Name="OverrideButton" Content="      Override&#xD;&#xA;Step Detection" HorizontalAlignment="Left" Height="62.833" Margin="10,348.167,0,0" VerticalAlignment="Top" Width="95" Click="OnClickOverride" FontWeight="Bold"/>
 
     </Grid>
     <Window.Resources>

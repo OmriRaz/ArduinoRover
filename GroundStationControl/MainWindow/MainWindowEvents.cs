@@ -100,5 +100,14 @@ namespace GroundStationControl
                     break;
             }
         }
+        private void OnClickOverride(object sender, RoutedEventArgs e)
+        {
+            if(overrideEnabled)
+                this.OverrideButton.Background = Brushes.Gray;
+            else
+                this.OverrideButton.Background = Brushes.Green;
+            
+            overrideEnabled = !overrideEnabled;
+        }
     }
 }

@@ -83,21 +83,24 @@ namespace GroundStationControl
         {
             // string consists of: L+ L- R+ R-
             char moveChar = '0'; // 0000
-            if(MainWindow.upKeyPressed && !stepDetected)
+            if(MainWindow.upKeyPressed)
             {
-                moveChar = '1'; // 1010 forward
+                if(MainWindow.overrideEnabled || !stepDetected)
+                    moveChar = '1'; // 1010 forward
             }
             else if(MainWindow.downKeyPressed)
             {
                 moveChar = '2'; // 0101 backward
             }
-            else if(MainWindow.leftKeyPressed && !stepDetected)
+            else if(MainWindow.leftKeyPressed)
             {
-                moveChar = '3'; // 1001 left
+                if (MainWindow.overrideEnabled || !stepDetected)
+                    moveChar = '3'; // 1001 left
             }
-            else if(MainWindow.rightKeyPressed && !stepDetected)
+            else if(MainWindow.rightKeyPressed)
             {
-                moveChar = '4'; // 0110 right
+                if (MainWindow.overrideEnabled || !stepDetected)
+                    moveChar = '4'; // 0110 right
             }
             
             return moveChar;
