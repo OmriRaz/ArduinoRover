@@ -22,9 +22,10 @@ namespace GroundStationControl
         {
             var key = e.Key;
 
-            System.Threading.Thread.Sleep(20);
+            System.Threading.Thread.Sleep(20); // short delay between sending move commands and processing what keys are pressed
             switch (key)
-            {
+            {   // switch case makes sure the user doesn't press more than the amount that is allowed to press at a time
+                // if he can press, it will also check if that key isn't already pressed and if not, set the key to pressed (change color and update var)
                 case Key.Up:
                     if (keysPressed < MAX_KEYS && !upKeyPressed)
                     {
@@ -64,7 +65,7 @@ namespace GroundStationControl
         {
             var key = e.Key;
             switch (key)
-            {
+            {   // switch case for releasing keys (update color and vars)
                 case Key.Up:
                     if (upKeyPressed)
                     {

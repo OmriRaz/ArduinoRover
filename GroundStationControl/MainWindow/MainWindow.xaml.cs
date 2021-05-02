@@ -25,7 +25,7 @@ namespace GroundStationControl
         public static bool rightKeyPressed = false;
         public static bool leftKeyPressed = false;
         private int keysPressed = 0;
-        public static MainWindow window;
+        public static MainWindow window; // instance to the main window, so that other classes can access and edit it.
 
         public MainWindow()
         {
@@ -36,8 +36,8 @@ namespace GroundStationControl
             this.LeftArrow.Background = Brushes.Gray;
             this.RightArrow.Background = Brushes.Gray;
 
-            Communication.OpenCommunication();
-            window = this;
+            Communication.OpenCommunication(); // open serial communication with Ground Station Arduino
+            window = this; // set the main window instance
         }
     }
 }

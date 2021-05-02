@@ -38,9 +38,6 @@ void loop()
     message.ir = getIRValue();
   
     message.particles = getPMSValues(); // 2.5 dust particles
-  
-    //String data = "~" + String(temp) + "|" + String(humidity) + "|" + String(pressure) + "|";
-    //String dataSecondPart = String(seaPressure) + "|" + String(gas) + "|" + String(ir) +  "|" + String(particles) + "~";
     
     bool report = radio.write(&message, sizeof(message));    // transmit & save success report
 
@@ -59,14 +56,12 @@ void loop()
         Serial.print(pipe); // print which pipe received
         Serial.print(" Received move command: "); // print move command received
         Serial.println(received.moveCommand);
-
+        handleMoveData(received.moveCommand);
       } 
       else 
       {
         Serial.println(F(" Recieved: an empty ACK packet"));
       }
-
-
     } 
     else 
     {

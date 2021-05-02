@@ -1,46 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.IO.Ports;
-using System.Text.RegularExpressions;
+using System.Threading; // Threading for sleep function and async tasks (communication)
+using System.IO.Ports; // Serial
+using System.Text.RegularExpressions; // regex
 
 namespace GroundStationControl
 {
     public static class Communication
     {
-        public static SerialPort port;
-        public const int BYTES_READ = 32;
-        // DATA STRUCTURE: ~TEMP|HUMIDITY%|PRESSURE|SEA_PRESSURE|GAS_VALUE|IR_VALUE~
-        // ↓
-        private const int SEPARATORS_COUNT = 5;
+        public static SerialPort port; // variable holding the instance for the serial communication
+        public static bool stepDetected = false; // variable for keeping track of if the rover is near a step
+
+        // DATA STRUCTURE: ~TEMP|HUMIDITY%|PRESSURE|SEA_PRESSURE|GAS_VALUE|IR_VALUE|PARTICLES~
+        // this is the structure for strings received from the Ground Station Arduino so we can parse it into separate data
         public static async void OpenCommunication()
         {
-            port = new SerialPort("COM4", 9600); // SerialPort.GetPortNames();
-            port.RtsEnable = true;
-            port.ReadTimeout = 1000;
-            await Task.Run(() =>
+            port = new SerialPort("COM4", Constants.BAUD_RATE); // opens the serial communication with the Ground Station Arduino at the baud rate given
+            await Task.Run(() => // async task for communication, so GUI can work/update while the application communicates
             {
-                Thread.Sleep(2000);
-                char[] buffer = new char[BYTES_READ];
-                char[] moveBuffer = new char[1];
+                Thread.Sleep(2000); // 2 seconds delay to let the Arduino start things up
+                char[] moveBuffer = new char[1]; // moveBuffer - will hold the move command to send to the 
+                // Ground Station Arduino according to keys pressed
                 while (true)
                 {
                     try
                     {
-                        if(!port.IsOpen)
-                        {
+                        if(!port.IsOpen) // if port isn't open, open it
+                        { // if port.Open fails, it'll throw an exception causing this if to be checked again. This is to avoid
+                            // reading/writing on a NULL instance
                             port.Open();
                             MainWindow.window.Dispatcher.Invoke(() =>
                             {
@@ -48,17 +35,14 @@ namespace GroundStationControl
                             });
                         }
 
-                        moveBuffer[0] = GetMovementString(); // get command for key pressed
-                        port.Write(moveBuffer, 0, 1); // write command to arduino 
+                        moveBuffer[0] = GetMovementString(); // get move command for key pressed
+                        port.Write(moveBuffer, 0, 1); // write move command to arduino 
 
-                        port.Read(buffer, 0, BYTES_READ); // read sensors data
-                        string bufferString = new string(buffer);
-                        port.Read(buffer, 0, BYTES_READ); // read sensors data
-                        bufferString += new string(buffer);
+                        string bufferString = port.ReadLine(); // read data from arduino (sensors data)
 
                         MainWindow.window.Dispatcher.Invoke(() =>
                         {
-                            MainWindow.window.MainText.Text = bufferString;
+                            MainWindow.window.MainText.Text = bufferString; // for debugging, to see the messages received from the arduino
                         });
 
                         // find start and end of data
@@ -66,15 +50,18 @@ namespace GroundStationControl
                         int endSymbolIndex = bufferString.IndexOf('~', startSymbolIndex + 1);
                         string data = "";
 
+                        // following if checks if it found a start & end symbol, and also that the string has proper length
                         if (startSymbolIndex != -1 && startSymbolIndex + 1 < bufferString.Length && endSymbolIndex != -1)
                         {
-                            data = bufferString.Substring(startSymbolIndex + 1, endSymbolIndex - 1);
+                            data = bufferString.Substring(startSymbolIndex + 1, endSymbolIndex - 1); // cut out the start & end symbol
+
                             // REGEX for checking if string in format
                             // [-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*[|][-+]?[0-9]*
                             Regex regex = new Regex(@"[-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|][-+]?[0-9]*(\.[0-9]+)[|]([-+]?[0-9]*)[|][-+]?[0-9]*[|][-+]?[0-9]*");
-                            Match match = regex.Match(data);
+                            Match match = regex.Match(data); // checks if string is in the above Regex format
                             if (match.Success)
-                            {
+                            { // confirmed data is in correct format, so now update main text (for debugging) and parse the data
+                              // so that it can be displayed properly using each data's units
                                 MainWindow.window.Dispatcher.Invoke(() =>
                                 {
                                     MainWindow.window.MainText.Text = data;
@@ -83,11 +70,11 @@ namespace GroundStationControl
                                 ParseAndShowData(data);
                             }
                         }                    
-                        port.DiscardInBuffer();
+                        port.DiscardInBuffer(); // clear buffer after reading so that we can get fresh data
                     }
-                    catch (Exception ex)
+                    catch (Exception ex) // caught an exception (can be triggered by regex, symbol finding, parsing data)
                     {
-                        ErrorMessage(ex.Message);
+                        ErrorMessage(ex.Message); // display the error message
                     }
                 }
             });
@@ -96,26 +83,30 @@ namespace GroundStationControl
         {
             // string consists of: L+ L- R+ R-
             char moveChar = '0'; // 0000
-            if(MainWindow.upKeyPressed)
+            if(MainWindow.upKeyPressed && !stepDetected)
             {
-                moveChar = '1'; // 1010
+                moveChar = '1'; // 1010 forward
             }
             else if(MainWindow.downKeyPressed)
             {
-                moveChar = '2'; // 0101
+                moveChar = '2'; // 0101 backward
             }
-            else if(MainWindow.leftKeyPressed)
+            else if(MainWindow.leftKeyPressed && !stepDetected)
             {
-                moveChar = '3'; // 1001
+                moveChar = '3'; // 1001 left
             }
-            else if(MainWindow.rightKeyPressed)
+            else if(MainWindow.rightKeyPressed && !stepDetected)
             {
-                moveChar = '4'; // 0110
+                moveChar = '4'; // 0110 right
             }
             
             return moveChar;
         }
 
+        /* Receives the data string received from the Arduino, parses and displays it
+         * data is parsed by taking the string from the start of data till the separator ('|')
+         * and then cutting that data till the separator (including the separator)
+         */ 
         public static void ParseAndShowData(string data)
         {
             try
@@ -146,7 +137,18 @@ namespace GroundStationControl
 
                     data = data.Remove(0, data.IndexOf('|') + 1);
 
-                    MainWindow.window.IRText.Text = "IR Value: " + data.Substring(0, data.IndexOf('|'));
+                    int ir = int.Parse(data.Substring(0, data.IndexOf('|')));
+                    if (ir >= Constants.STEP_DETECTED_VALUE)
+                    {
+                        MainWindow.window.IRText.Text = "IR Value: " + ir + "\nSTEP DETECTED";
+                        stepDetected = true;
+                    }
+                    else
+                    {
+                        stepDetected = false;
+                        MainWindow.window.IRText.Text = "IR Value: " + ir;
+                    }
+
                     data = data.Remove(0, data.IndexOf('|') + 1);
 
                     if(int.Parse(data) != -1) // -1 value means PM is in process of collecting data, so this wont show the -1 till we get an actual value
@@ -159,7 +161,7 @@ namespace GroundStationControl
                 ErrorMessage(e.Message);
             }
         }
-        public static void ErrorMessage(string error)
+        public static void ErrorMessage(string error) // updates main text with error message
         {
             MainWindow.window.Dispatcher.Invoke(() =>
             {

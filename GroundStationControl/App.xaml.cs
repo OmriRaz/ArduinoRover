@@ -16,7 +16,7 @@ namespace GroundStationControl
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
-            Communication.port.Close();
+            Communication.port.Close(); // close serial port as it stays open even when the application terminates
         }
     }
 }
