@@ -1,43 +1,43 @@
-#define MLP 4 //Positive LEFT
-#define MLN 5 //Negative LEFT
-
-#define MRP 6 //Positive RIGHT
-#define MRN 7 //Negative RIGHT
-
-
+#include <Servo.h>
+Servo LeftMotor;
+Servo RightMotor;
 void setup() {
-  for(int pins=MLP; pins <= MRN; pins++)  //loop through 4 pins to define if the pins are inputs or outputs
-    pinMode(pins, OUTPUT);
+  LeftMotor.attach(4);
+  RightMotor.attach(5);
 }
 
 void loop() {
+  forward();
+  delay(1500);
+  backward();
+  delay(1500);
+  left();
+  delay(1500);
+  right();
+  delay(1500);
   
 }
 
 void forward(){
-    digitalWrite(MLP, HIGH);
-    digitalWrite(MLN, LOW);
-    digitalWrite(MRP, HIGH);
-    digitalWrite(MRN, LOW);
+    LeftMotor.write(0);
+    RightMotor.write(180);
 }
 
 void backward() {
-    digitalWrite(MLP, LOW);
-    digitalWrite(MLN, HIGH);
-    digitalWrite(MRP, LOW);
-    digitalWrite(MRN, HIGH);
+    LeftMotor.write(180);
+    RightMotor.write(0);
 }
 
 void left() {
-    digitalWrite(MLP, HIGH);
-    digitalWrite(MLN, LOW);
-    digitalWrite(MRP, LOW);
-    digitalWrite(MRN, HIGH);
+    LeftMotor.write(180);
+    RightMotor.write(180);
 }
 
 void right() {
-    digitalWrite(MLP, LOW);
-    digitalWrite(MLN, HIGH);
-    digitalWrite(MRP, HIGH);
-    digitalWrite(MRN, LOW);
+    LeftMotor.write(0);
+    RightMotor.write(0);
+}
+void stop() {
+  LeftMotor.write(94.5);
+  RightMotor.write(94.5);
 }
