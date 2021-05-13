@@ -22,7 +22,7 @@ void setup()
     Serial.begin(9600);
     radio.begin();
 
-    radio.setPALevel(RF24_PA_MIN);       //You can set this as minimum or maximum depending on the distance between the transmitter and receiver.
+    radio.setPALevel(RF24_PA_MIN);      
     
     radio.enableDynamicPayloads();
     radio.enableAckPayload();
@@ -40,7 +40,7 @@ void setup()
     message.moveCommand = '0';
     radio.writeAckPayload(1, &message, sizeof(MessageStruct));
 
-    radio.startListening();                                     // put radio in RX mode
+    radio.startListening();  // receiver mode                                 
 }
 void loop()
 {
@@ -53,7 +53,7 @@ void loop()
       MessageStruct received;
       radio.read(&received, sizeof(received));       // get incoming payload
       
-      radio.writeAckPayload(1, &message, sizeof(message));
+      radio.writeAckPayload(1, &message, sizeof(message)); // send ACK payload with movement command
 
       String data = "~" + String(received.temp) + "|" + String(received.humidity) + "|" + String(received.pressure) + "|"
       + String(received.seaPressure) + "|" + String(received.gas) + "|" + String(received.ir) +  "|" + String(received.particles) + "~";
