@@ -21,8 +21,7 @@ void setup()
   initializeNRFCommunication();
   initializePMSSensor();
 
-  for(int pins=MLP; pins <= MRN; pins++)  //loop through 4 pins to define if the pins are inputs or outputs
-    pinMode(pins, OUTPUT);
+  initializeMotors();
     
   // Gas and IR don't need initialization, they return the values to analog pins directly
 }

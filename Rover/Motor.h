@@ -1,43 +1,38 @@
-#define MLP 3 //Positive LEFT
-#define MLN 4 //Negative LEFT
+#include <Servo.h>
+Servo LeftMotor;
+Servo RightMotor;
 
-#define MRP 5 //Positive RIGHT
-#define MRN 6 //Negative RIGHT
+void initializeMotors()
+{
+    LeftMotor.attach(MOTOR_LEFT);
+    RightMotor.attach(MOTOR_RIGHT);
+}
 
 void stopMotors()
 {
-  digitalWrite(MLP, LOW);
-    digitalWrite(MLN, LOW);
-    digitalWrite(MRP, LOW);
-    digitalWrite(MRN, LOW);
+  LeftMotor.write(94.5);
+  RightMotor.write(94.5);
 }
 
-void forward(){
-    digitalWrite(MLP, HIGH);
-    digitalWrite(MLN, LOW);
-    digitalWrite(MRP, HIGH);
-    digitalWrite(MRN, LOW);
+void forward()
+{
+    LeftMotor.write(0);
+    RightMotor.write(180);
 }
 
 void backward() {
-    digitalWrite(MLP, LOW);
-    digitalWrite(MLN, HIGH);
-    digitalWrite(MRP, LOW);
-    digitalWrite(MRN, HIGH);
+    LeftMotor.write(180);
+    RightMotor.write(0);
 }
 
 void left() {
-    digitalWrite(MLP, HIGH);
-    digitalWrite(MLN, LOW);
-    digitalWrite(MRP, LOW);
-    digitalWrite(MRN, HIGH);
+    LeftMotor.write(180);
+    RightMotor.write(180);
 }
 
 void right() {
-    digitalWrite(MLP, LOW);
-    digitalWrite(MLN, HIGH);
-    digitalWrite(MRP, HIGH);
-    digitalWrite(MRN, LOW);
+    LeftMotor.write(0);
+    RightMotor.write(0);
 }
 
 void handleMoveData(char data)

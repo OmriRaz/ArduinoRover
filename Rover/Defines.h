@@ -7,11 +7,8 @@
 #define DHT11_PIN       2
 
 // Motor
-#define MOTOR_MLP 4 //Positive LEFT
-#define MOTOR_MLN 5 //Negative LEFT
-
-#define MOTOR_MRP 6 //Positive RIGHT
-#define MOTOR_MRN 7 //Negative RIGHT
+#define MOTOR_LEFT    4
+#define MOTOR_RIGHT   5
 // ---------
 
 
