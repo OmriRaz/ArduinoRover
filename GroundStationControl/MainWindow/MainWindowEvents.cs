@@ -102,12 +102,12 @@ namespace GroundStationControl
         }
         private void OnClickOverride(object sender, RoutedEventArgs e)
         {
-            if(overrideEnabled)
-                this.OverrideButton.Background = Brushes.Gray;
-            else
-                this.OverrideButton.Background = Brushes.Green;
-            
             overrideEnabled = !overrideEnabled;
+            if (overrideEnabled)
+                this.OverrideButton.Background = Brushes.Green;
+            else
+                this.OverrideButton.Background = Brushes.Gray;
+            
         }
     }
 }

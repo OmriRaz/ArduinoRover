@@ -39,7 +39,7 @@ namespace GroundStationControl
 
             this.OverrideButton.Background = Brushes.Gray;
 
-            Communication.OpenCommunication(); // open serial communication with Ground Station Arduino
+            Communication.HandleCommunication(); // open serial communication with Ground Station Arduino
             window = this; // set the main window instance
         }
     }

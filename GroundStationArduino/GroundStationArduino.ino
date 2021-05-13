@@ -57,12 +57,8 @@ void loop()
 
       String data = "~" + String(received.temp) + "|" + String(received.humidity) + "|" + String(received.pressure) + "|"
       + String(received.seaPressure) + "|" + String(received.gas) + "|" + String(received.ir) +  "|" + String(received.particles) + "~";
-      //String dataSecondPart = String(received.seaPressure) + "|" + String(received.gas) + "|" + String(received.ir) +  "|" + String(received.particles) + "~";
       Serial.println(data); // write to ground station's port the data we got from rover 
-      //Serial.print(dataSecondPart); // write to ground station's port the second part of the data we got from rover 
     }  
     delay(20);
 
-
-    delay(20);
 }

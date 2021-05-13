@@ -13,7 +13,7 @@ namespace GroundStationControl
 
         // DATA STRUCTURE: ~TEMP|HUMIDITY%|PRESSURE|SEA_PRESSURE|GAS_VALUE|IR_VALUE|PARTICLES~
         // this is the structure for strings received from the Ground Station Arduino so we can parse it into separate data
-        public static async void OpenCommunication()
+        public static async void HandleCommunication()
         {
             port = new SerialPort("COM4", Constants.BAUD_RATE); // opens the serial communication with the Ground Station Arduino at the baud rate given
             await Task.Run(() => // async task for communication, so GUI can work/update while the application communicates
@@ -35,7 +35,7 @@ namespace GroundStationControl
                             });
                         }
 
-                        moveBuffer[0] = GetMovementString(); // get move command for key pressed
+                        moveBuffer[0] = GetMovementChar(); // get move command for key pressed
                         port.Write(moveBuffer, 0, 1); // write move command to arduino 
 
                         string bufferString = port.ReadLine(); // read data from arduino (sensors data)
@@ -79,7 +79,7 @@ namespace GroundStationControl
                 }
             });
         }
-        private static char GetMovementString()
+        private static char GetMovementChar()
         {
             // string consists of: L+ L- R+ R-
             char moveChar = '0'; // 0000
@@ -110,7 +110,7 @@ namespace GroundStationControl
          * data is parsed by taking the string from the start of data till the separator ('|')
          * and then cutting that data till the separator (including the separator)
          */ 
-        public static void ParseAndShowData(string data)
+        private static void ParseAndShowData(string data)
         {
             try
             {
