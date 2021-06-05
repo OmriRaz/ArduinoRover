@@ -81,26 +81,25 @@ namespace GroundStationControl
         }
         private static char GetMovementChar()
         {
-            // string consists of: L+ L- R+ R-
-            char moveChar = '0'; // 0000
+            char moveChar = '0';
             if(MainWindow.upKeyPressed)
             {
                 if(MainWindow.overrideEnabled || !stepDetected)
-                    moveChar = '1'; // 1010 forward
+                    moveChar = '1'; // forward
             }
             else if(MainWindow.downKeyPressed)
             {
-                moveChar = '2'; // 0101 backward
+                moveChar = '2'; // backward
             }
             else if(MainWindow.leftKeyPressed)
             {
                 if (MainWindow.overrideEnabled || !stepDetected)
-                    moveChar = '3'; // 1001 left
+                    moveChar = '3'; // left
             }
             else if(MainWindow.rightKeyPressed)
             {
                 if (MainWindow.overrideEnabled || !stepDetected)
-                    moveChar = '4'; // 0110 right
+                    moveChar = '4'; // right
             }
             
             return moveChar;

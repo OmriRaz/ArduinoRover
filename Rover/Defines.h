@@ -7,7 +7,7 @@
 #define DHT11_PIN       2
 
 // Motor
-#define MOTOR_LEFT    4
+#define MOTOR_LEFT    6
 #define MOTOR_RIGHT   5
 // ---------
 

@@ -1,9 +1,5 @@
 #include "Adafruit_PM25AQI.h"
- 
-// If your PM2.5 is UART only, for UNO and others (without hardware serial) 
-// we must use software serial...
-// pin #2 is IN from sensor (TX pin on sensor), leave pin #3 disconnected
-// comment these two lines if using hardware serial
+
 #include <SoftwareSerial.h>
 SoftwareSerial pmSerial(7, 8); // TX RX
  
