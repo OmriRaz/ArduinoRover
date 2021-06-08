@@ -2,37 +2,38 @@
 Servo LeftMotor;
 Servo RightMotor;
 
-void initializeMotors()
-{
-    LeftMotor.attach(MOTOR_LEFT);
-    RightMotor.attach(MOTOR_RIGHT);
-}
-
 void stopMotors()
 {
   LeftMotor.write(94.5);
   RightMotor.write(94.5);
 }
 
+void initializeMotors()
+{
+    LeftMotor.attach(MOTOR_LEFT);
+    RightMotor.attach(MOTOR_RIGHT);
+    stopMotors();
+}
+
 void forward()
 {
-    LeftMotor.write(0);
-    RightMotor.write(180);
+    LeftMotor.write(180);
+    RightMotor.write(0);
 }
 
 void backward() {
-    LeftMotor.write(180);
-    RightMotor.write(0);
-}
-
-void left() {
-    LeftMotor.write(180);
+    LeftMotor.write(0);
     RightMotor.write(180);
 }
 
-void right() {
+void left() {
     LeftMotor.write(0);
     RightMotor.write(0);
+}
+
+void right() {
+    LeftMotor.write(180);
+    RightMotor.write(180);
 }
 
 void handleMoveData(char data)
@@ -56,6 +57,7 @@ void handleMoveData(char data)
         break;
       default:
         Serial.print("Error in move data: " + data);
+        stopMotors();
         break;
     }
 }
