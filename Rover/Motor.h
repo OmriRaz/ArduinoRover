@@ -17,13 +17,13 @@ void initializeMotors()
 
 void forward()
 {
-    LeftMotor.write(180);
-    RightMotor.write(0);
+    LeftMotor.write(0);
+    RightMotor.write(180);
 }
 
 void backward() {
-    LeftMotor.write(0);
-    RightMotor.write(180);
+    LeftMotor.write(180);
+    RightMotor.write(0);
 }
 
 void left() {

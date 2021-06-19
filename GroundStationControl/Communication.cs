@@ -15,7 +15,7 @@ namespace GroundStationControl
         // this is the structure for strings received from the Ground Station Arduino so we can parse it into separate data
         public static async void HandleCommunication()
         {
-            port = new SerialPort("COM4", Constants.BAUD_RATE); // opens the serial communication with the Ground Station Arduino at the baud rate given
+            port = new SerialPort(Constants.COM_STRING, Constants.BAUD_RATE); // opens the serial communication with the Ground Station Arduino at the baud rate given
             await Task.Run(() => // async task for communication, so GUI can work/update while the application communicates
             {
                 Thread.Sleep(2000); // 2 seconds delay to let the Arduino start things up
